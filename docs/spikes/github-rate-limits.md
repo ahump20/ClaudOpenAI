@@ -44,7 +44,7 @@ Use a fine-grained PAT with:
 - Permissions: `contents: read`, `metadata: read`
 - Expiration: 1 year, rotated before
 
-Token already on file in Austin's `CLAUDE.md` global config: `github_pat_11BPGCJLA0WY54ZKPBTmG0_...`. Copy into Worker secret (never commit).
+Token already on file in Austin's private `CLAUDE.md` global config. Copy into Worker secret via `wrangler secret put GITHUB_TOKEN` — never commit to this repo.
 
 ## Observability
 
