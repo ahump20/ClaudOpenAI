@@ -1,0 +1,43 @@
+{
+  "$comment": "Intentional low-quality stub. Should score <30 per scorer rubric. Used by scorer.test.ts to verify minimum thresholds.",
+  "id": "random-user/stub",
+  "origin": {
+    "ecosystem": "standalone",
+    "sourcePath": "stub/",
+    "sourceSha": null,
+    "repo": "random-user/stub-skills",
+    "discoveredAt": "2026-04-12T00:00:00Z"
+  },
+  "type": "skill",
+  "name": "stub",
+  "description": "does stuff",
+  "skills": [
+    {
+      "path": ".",
+      "name": "stub",
+      "description": "does stuff",
+      "frontmatter": { "name": "stub", "description": "does stuff" },
+      "body": "# Stub\n\nNot much here.",
+      "references": [],
+      "scripts": [],
+      "assets": []
+    }
+  ],
+  "mcpServers": {},
+  "commands": [],
+  "agents": [],
+  "apps": {},
+  "ecosystem_extensions": { "claude": {}, "codex": {} },
+  "translation_log": [],
+  "quality_score": 20,
+  "quality_breakdown": {
+    "has_references": 0,
+    "has_scripts": 0,
+    "description_quality": 0,
+    "has_examples": 0,
+    "passes_validation": 20,
+    "star_weight": 0,
+    "has_tests": 0
+  },
+  "last_verified": "2026-04-12T00:00:00Z"
+}

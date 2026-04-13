@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marketplace.blazesportsintel.com/schemas/canonical-skill.schema.json",
+  "title": "CanonicalSkill",
+  "description": "ClaudOpenAI universal-skills-marketplace canonical intermediate format. The translator produces and consumes this shape. See references/11-manifest-translator-algorithm.md.",
+  "type": "object",
+  "required": ["id", "origin", "type", "name", "description"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*(/[a-z0-9][a-z0-9-]*)?$"},
+    "origin": {
+      "type": "object",
+      "required": ["ecosystem", "sourcePath"],
+      "properties": {
+        "ecosystem": {"enum": ["claude", "codex", "standalone"]},
+        "sourcePath": {"type": "string"},
+        "sourceSha": {"type": ["string", "null"]},
+        "repo": {"type": ["string", "null"]},
+        "discoveredAt": {"type": "string", "format": "date-time"}
+      }
+    },
+    "type": {"enum": ["plugin", "skill", "marketplace"]},
+    "name": {"type": "string"},
+    "description": {"type": "string"},
+    "version": {"type": ["string", "null"]},
+    "author": {
+      "type": ["object", "null"],
+      "properties": {
+        "name": {"type": "string"},
+        "email": {"type": "string"},
+        "url": {"type": "string"}
+      }
+    },
+    "homepage": {"type": ["string", "null"]},
+    "repository": {"type": ["string", "null"]},
+    "license": {"type": ["string", "null"]},
+    "keywords": {"type": "array", "items": {"type": "string"}, "default": []},
+    "tags": {"type": "array", "items": {"type": "string"}, "default": []},
+    "category": {"type": ["string", "null"]},
+    "skills": {
+      "type": "array",
+      "default": [],
+      "items": {
+        "type": "object",
+        "required": ["path", "name", "description"],
+        "properties": {
+          "path": {"type": "string"},
+          "name": {"type": "string"},
+          "description": {"type": "string"},
+          "version": {"type": ["string", "null"]},
+          "frontmatter": {"type": "object", "additionalProperties": true},
+          "body": {"type": "string"},
+          "references": {"type": "array", "items": {"type": "string"}},
+          "scripts": {"type": "array", "items": {"type": "string"}},
+          "assets": {"type": "array", "items": {"type": "string"}},
+          "nestedAgents": {"type": "array"},
+          "skillInterface": {"type": ["object", "null"]}
+        }
+      }
+    },
+    "mcpServers": {"type": "object", "additionalProperties": true},
+    "commands": {"type": "array", "default": [], "items": {"type": "object"}},
+    "hooks": {
+      "type": ["object", "null"],
+      "properties": {
+        "description": {"type": ["string", "null"]},
+        "events": {"type": "object", "additionalProperties": true}
+      }
+    },
+    "agents": {"type": "array", "default": [], "items": {"type": "object"}},
+    "apps": {"type": "object", "additionalProperties": true},
+    "interface": {"type": ["object", "null"], "additionalProperties": true},
+    "ecosystem_extensions": {
+      "type": "object",
+      "properties": {
+        "claude": {"type": "object", "additionalProperties": true},
+        "codex": {"type": "object", "additionalProperties": true}
+      }
+    },
+    "translation_log": {
+      "type": "array",
+      "default": [],
+      "items": {
+        "type": "object",
+        "required": ["level", "field", "message"],
+        "properties": {
+          "level": {"enum": ["info", "warning", "lossy", "error"]},
+          "field": {"type": "string"},
+          "message": {"type": "string"},
+          "shim_generated": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "quality_score": {"type": "number", "minimum": 0, "maximum": 100},
+    "quality_breakdown": {"type": "object", "additionalProperties": true},
+    "compatibility_flags": {
+      "type": "object",
+      "properties": {
+        "claude": {
+          "type": "object",
+          "properties": {
+            "compatible": {"type": "boolean"},
+            "min_version": {"type": ["string", "null"]},
+            "lossy_fields": {"type": "array", "items": {"type": "string"}}
+          }
+        },
+        "codex": {
+          "type": "object",
+          "properties": {
+            "compatible": {"type": "boolean"},
+            "min_version": {"type": ["string", "null"]},
+            "lossy_fields": {"type": "array", "items": {"type": "string"}}
+          }
+        }
+      }
+    },
+    "content_hash": {"type": "string"},
+    "last_verified": {"type": "string", "format": "date-time"},
+    "install_count": {"type": "integer", "minimum": 0, "default": 0}
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "$comment": "Known-good fixture: synthetic canonical record for an 'openai-skills/pdf' skill, designed to score >=70 per prompt line 147. Used by scorer.test.ts.",
+  "id": "openai-skills/pdf",
+  "origin": {
+    "ecosystem": "standalone",
+    "sourcePath": ".curated/pdf",
+    "sourceSha": "abc123def456",
+    "repo": "openai/skills",
+    "discoveredAt": "2026-04-12T00:00:00Z"
+  },
+  "type": "skill",
+  "name": "pdf",
+  "description": "Use when processing, extracting, or generating PDF documents. Triggers on 'pdf', 'pdf extract', 'pdf fill form', 'read pdf', 'pdf table extract'. Covers text extraction, metadata parsing, form filling, and PDF generation via PyPDF2/reportlab.",
+  "version": "0.3.1",
+  "author": { "name": "OpenAI", "url": "https://openai.com" },
+  "license": "MIT",
+  "keywords": ["pdf", "extraction", "forms", "text", "parsing"],
+  "tags": ["pdf", "document-processing", "extraction"],
+  "category": "Productivity",
+  "skills": [
+    {
+      "path": ".",
+      "name": "pdf",
+      "description": "Use when processing PDFs — extraction, form filling, generation.",
+      "version": "0.3.1",
+      "frontmatter": {
+        "name": "pdf",
+        "description": "Use when processing, extracting, or generating PDF documents. Triggers on 'pdf', 'pdf extract', 'pdf fill form'.",
+        "version": "0.3.1"
+      },
+      "body": "# PDF Skill\n\n## Examples\n\n### Example 1 — text extraction\n\n...\n\n### Example 2 — form filling\n\n...",
+      "references": [
+        "references/01-text-extraction.md",
+        "references/02-form-filling.md",
+        "references/03-pdf-generation.md",
+        "references/04-tables-and-layout.md"
+      ],
+      "scripts": [
+        "scripts/validate.sh",
+        "scripts/test-extraction.py",
+        "scripts/extract-cli.py"
+      ],
+      "assets": [
+        "assets/sample-forms/w9.pdf",
+        "assets/sample-invoices/inv-001.pdf"
+      ]
+    }
+  ],
+  "mcpServers": {},
+  "commands": [],
+  "hooks": null,
+  "agents": [],
+  "apps": {},
+  "interface": null,
+  "ecosystem_extensions": { "claude": {}, "codex": {} },
+  "translation_log": [],
+  "quality_score": 80,
+  "quality_breakdown": {
+    "has_references": 10,
+    "has_scripts": 10,
+    "description_quality": 5,
+    "has_examples": 10,
+    "passes_validation": 20,
+    "star_weight": 15,
+    "has_tests": 20
+  },
+  "compatibility_flags": {
+    "claude": { "compatible": true, "min_version": null, "lossy_fields": [] },
+    "codex": { "compatible": true, "min_version": null, "lossy_fields": [] }
+  },
+  "content_hash": "sha256:deadbeef...",
+  "last_verified": "2026-04-12T00:00:00Z",
+  "install_count": 0
+}

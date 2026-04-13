@@ -1,0 +1,41 @@
+{
+  "name": "{{plugin_name_kebab}}",
+  "version": "{{version_semver}}",
+  "description": "{{one_sentence_description}}",
+  "author": {
+    "name": "{{author_name}}",
+    "email": "{{author_email}}",
+    "url": "{{author_url}}"
+  },
+  "homepage": "{{homepage_url}}",
+  "repository": "{{repository_url}}",
+  "license": "{{license_spdx}}",
+  "keywords": [
+    "{{keyword_1}}",
+    "{{keyword_2}}"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "{{display_name_title_case}}",
+    "shortDescription": "{{short_description_max_60}}",
+    "longDescription": "{{long_description_paragraph}}",
+    "developerName": "{{developer_name}}",
+    "category": "Coding",
+    "capabilities": [
+      "Read",
+      "Interactive"
+    ],
+    "websiteURL": "{{website_url}}",
+    "privacyPolicyURL": "{{privacy_url}}",
+    "termsOfServiceURL": "{{terms_url}}",
+    "defaultPrompt": [
+      "{{default_prompt_1}}",
+      "{{default_prompt_2}}"
+    ],
+    "brandColor": "{{brand_color_hex}}",
+    "composerIcon": "./assets/icon-composer.svg",
+    "logo": "./assets/icon-logo.svg",
+    "screenshots": []
+  }
+}

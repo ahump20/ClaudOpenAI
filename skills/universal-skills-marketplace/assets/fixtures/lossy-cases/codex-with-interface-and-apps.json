@@ -1,0 +1,49 @@
+{
+  "$comment": "Codex plugin with full interface{} block + apps pointer. Round-trip Codex->Claude->Codex should preserve all interface fields + connector IDs via .claude-plugin/codex_ecosystem.json.",
+  "codex_plugin_json": {
+    "name": "canva",
+    "version": "1.0.0",
+    "description": "Search, create, edit designs",
+    "author": { "url": "https://www.canva.com" },
+    "homepage": "https://www.canva.com",
+    "repository": "https://github.com/openai/plugins",
+    "license": "MIT",
+    "keywords": [],
+    "skills": "./skills/",
+    "apps": "./.app.json",
+    "interface": {
+      "displayName": "Canva",
+      "shortDescription": "Search, create, edit designs",
+      "longDescription": "Search, create, edit designs",
+      "category": "Productivity",
+      "capabilities": [],
+      "websiteURL": "https://www.canva.com",
+      "privacyPolicyURL": "https://www.canva.com/policies/privacy-policy/",
+      "termsOfServiceURL": "https://www.canva.com/policies/terms-of-use/",
+      "defaultPrompt": ["Create or adapt a Canva design"],
+      "composerIcon": "./assets/app-icon.png",
+      "logo": "./assets/app-icon.png",
+      "screenshots": []
+    }
+  },
+  "app_json": { "apps": { "canva": { "id": "connector_c0ffee" } } },
+  "expected_translation_log_on_codex_to_claude": [
+    {
+      "level": "lossy",
+      "field": "interface",
+      "message": "Codex catalog metadata preserved in .claude-plugin/codex_ecosystem.json",
+      "shim_generated": ".claude-plugin/codex_ecosystem.json"
+    },
+    {
+      "level": "lossy",
+      "field": "apps",
+      "message": "Codex connector registry preserved in .claude-plugin/codex_ecosystem.json.apps; notes file emitted",
+      "shim_generated": "docs/codex-apps.notes.md"
+    },
+    {
+      "level": "info",
+      "field": "homepage,repository,license,keywords",
+      "message": "Codex top-level metadata preserved in codex_ecosystem.json"
+    }
+  ]
+}

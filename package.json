@@ -1,0 +1,65 @@
+{
+  "name": "claudopenai",
+  "version": "0.1.0-alpha.0",
+  "description": "ClaudOpenAI — unofficial Universal Skills Marketplace bridging Claude Code and OpenAI Codex. Context7 for skills, not docs.",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "Austin Humphrey",
+    "email": "ahump20@outlook.com",
+    "url": "https://blazesportsintel.com"
+  },
+  "homepage": "https://marketplace.blazesportsintel.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ahump20/ClaudOpenAI.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ahump20/ClaudOpenAI/issues"
+  },
+  "keywords": [
+    "claude",
+    "codex",
+    "mcp",
+    "skills",
+    "marketplace",
+    "agentskills",
+    "plugin",
+    "cloudflare-workers",
+    "model-context-protocol",
+    "unofficial"
+  ],
+  "workspaces": [
+    "packages/*",
+    "workers/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "test:unit": "npm run test:unit --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "format": "prettier --write .",
+    "validate-skill": "bash skills/universal-skills-marketplace/scripts/validate.sh",
+    "translator-roundtrip": "node skills/universal-skills-marketplace/scripts/test-translator.ts --all-fixtures",
+    "dev:api": "wrangler dev --config workers/universal-skills-api/wrangler.toml",
+    "dev:indexer": "wrangler dev --test-scheduled --config workers/universal-skills-indexer/wrangler.toml",
+    "dev:bridge": "wrangler dev --config workers/universal-skills-bridge/wrangler.toml",
+    "deploy:api": "wrangler deploy --config workers/universal-skills-api/wrangler.toml",
+    "deploy:indexer": "wrangler deploy --config workers/universal-skills-indexer/wrangler.toml",
+    "deploy:bridge": "wrangler deploy --config workers/universal-skills-bridge/wrangler.toml",
+    "deploy:all": "npm run deploy:api && npm run deploy:indexer && npm run deploy:bridge",
+    "publish:skill": "bash skills/universal-skills-marketplace/scripts/package-skill.sh universal-skills-marketplace"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "prettier": "^3.2.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.4.0"
+  },
+  "engines": {
+    "node": ">=18.19.0",
+    "npm": ">=10"
+  }
+}

@@ -1,0 +1,32 @@
+name = "{{worker_name}}"
+main = "src/index.ts"
+compatibility_date = "2026-04-01"
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "{{d1_database_name}}"
+database_id = "{{d1_database_id}}"
+
+[[r2_buckets]]
+binding = "CONTENT"
+bucket_name = "{{r2_bucket_name}}"
+
+[[kv_namespaces]]
+binding = "CACHE"
+id = "{{cache_kv_id}}"
+
+[[kv_namespaces]]
+binding = "RATE_LIMIT"
+id = "{{ratelimit_kv_id}}"
+
+[observability]
+enabled = true
+
+[[routes]]
+pattern = "{{custom_domain}}/*"
+zone_name = "{{zone_name}}"
+custom_domain = true
+
+[vars]
+REGISTRY_VERSION = "{{version}}"

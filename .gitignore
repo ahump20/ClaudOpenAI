@@ -1,0 +1,46 @@
+# Node / TypeScript
+node_modules/
+dist/
+build/
+*.tsbuildinfo
+.npm/
+.yarn/
+
+# Wrangler / Cloudflare
+.wrangler/
+.dev.vars
+.env
+.env.*
+!.env.example
+
+# Vitest / test runners
+coverage/
+.nyc_output/
+.vitest-cache/
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Spike scratch
+/tmp/
+/scratch/
+
+# iCloud artifacts (repo lives in iCloud; build artifacts must not)
+.icloud
+*.icloud
+
+# Build staging (per BSI convention — see scripts/build-safe.sh)
+/ClaudOpenAI-build/
+
+# Upstream clones for dev indexer (scripts/fetch-upstream-catalog.sh)
+/upstream-cache/

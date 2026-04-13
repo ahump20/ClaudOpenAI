@@ -1,0 +1,37 @@
+---
+name: {{skill_name_kebab}}
+description: {{description_with_triggers}}
+version: {{version_semver}}
+---
+
+# {{skill_title_case}}
+
+{{one_sentence_mission}}
+
+## Routing table
+
+| I want to… | Primary reference | Supporting script/asset |
+|------------|-------------------|--------------------------|
+| {{intent_1}} | `references/{{ref_1}}.md` | `scripts/{{script_1}}` |
+| {{intent_2}} | `references/{{ref_2}}.md` | `assets/{{asset_1}}` |
+| {{intent_3}} | `references/{{ref_3}}.md` | — |
+
+## Phase dispatcher
+
+- **{{phase_1_label}}** → read `references/{{phase_1_ref}}.md`
+- **{{phase_2_label}}** → read `references/{{phase_2_ref}}.md`
+- **{{phase_3_label}}** → read `references/{{phase_3_ref}}.md`
+
+## Hard rules
+
+1. {{rule_1}}
+2. {{rule_2}}
+3. {{rule_3}}
+
+## Run before any commit
+
+```bash
+bash skills/{{skill_name_kebab}}/scripts/validate.sh
+```
+
+Must exit 0.

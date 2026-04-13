@@ -1,0 +1,6 @@
+{
+  "universal-skills": {
+    "command": "npx",
+    "args": ["-y", "@blazesportsintel/universal-skills-mcp"]
+  }
+}

@@ -1,0 +1,25 @@
+name = "{{worker_name}}"
+main = "src/index.ts"
+compatibility_date = "2026-04-01"
+compatibility_flags = ["nodejs_compat"]
+
+[triggers]
+crons = ["0 */6 * * *"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "{{d1_database_name}}"
+database_id = "{{d1_database_id}}"
+
+[[r2_buckets]]
+binding = "CONTENT"
+bucket_name = "{{r2_bucket_name}}"
+
+[[kv_namespaces]]
+binding = "INDEXER_STATE"
+id = "{{indexer_state_kv_id}}"
+
+[observability]
+enabled = true
+
+# Secrets (set via: wrangler secret put GITHUB_TOKEN)

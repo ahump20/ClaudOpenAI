@@ -1,0 +1,40 @@
+%% Indexer cycle — runs every 6h via cron (Mermaid source)
+
+sequenceDiagram
+    participant Cron as Cloudflare Cron
+    participant Worker as universal-skills-indexer
+    participant KV as KV: INDEXER_STATE
+    participant GH as GitHub API
+    participant Norm as translator.toCanonical
+    participant Score as scorer.scoreSkill
+    participant D1 as D1: skills
+    participant R2 as R2: content
+
+    Cron->>Worker: scheduled("0 */6 * * *")
+
+    loop For each upstream source
+        Worker->>KV: get("sha:<source>")
+        KV-->>Worker: lastSha
+        Worker->>GH: GET /repos/<src>/branches/<default>
+        GH-->>Worker: { commit.sha: headSha }
+        alt headSha === lastSha
+            Worker->>KV: put("last_checked:<source>", now)
+            Note over Worker: skip — unchanged
+        else changed
+            Worker->>GH: GET /compare/lastSha...headSha
+            GH-->>Worker: { files: [...] }
+            loop For each SKILL.md / plugin.json file
+                Worker->>GH: GET /contents/<path>?ref=<sha>
+                GH-->>Worker: base64 content
+                Worker->>Norm: normalize(path, content)
+                Norm-->>Worker: CanonicalSkill
+                Worker->>Score: scoreSkill(canonical)
+                Score-->>Worker: 0-100
+                Worker->>D1: UPSERT INTO skills ...
+                Worker->>R2: PUT skills/<id>/<ver>/*
+            end
+            Worker->>KV: put("sha:<source>", headSha)
+        end
+    end
+
+    Worker->>Worker: console.log cycle summary

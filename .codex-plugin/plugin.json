@@ -1,0 +1,50 @@
+{
+  "name": "universal-skills-marketplace",
+  "version": "0.1.0-alpha.0",
+  "description": "Unofficial cross-ecosystem skills marketplace — Context7 for skills, not docs. Resolves and installs skills from both Claude Code and OpenAI Codex ecosystems via a single MCP server.",
+  "author": {
+    "name": "Austin Humphrey / Blaze Sports Intel",
+    "email": "ahump20@outlook.com",
+    "url": "https://blazesportsintel.com"
+  },
+  "homepage": "https://marketplace.blazesportsintel.com",
+  "repository": "https://github.com/ahump20/ClaudOpenAI",
+  "license": "Apache-2.0",
+  "keywords": [
+    "skills",
+    "marketplace",
+    "mcp",
+    "agentskills",
+    "cross-ecosystem",
+    "claude",
+    "codex",
+    "plugins",
+    "registry",
+    "bridge"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Universal Skills Marketplace",
+    "shortDescription": "One registry. Both ecosystems. Unofficial.",
+    "longDescription": "Search, fetch, and install agent skills from Claude Code and OpenAI Codex ecosystems through a single MCP server. Bridges the anthropics/skills, anthropics/claude-plugins-official, openai/skills, openai/plugins, openai/codex-plugin-cc, and openai/codex repositories with a Context7-pattern two-tool plus install API. Not affiliated with Anthropic or OpenAI — unofficial independent community project.",
+    "developerName": "Blaze Sports Intel",
+    "category": "Coding",
+    "capabilities": [
+      "Read",
+      "Interactive"
+    ],
+    "websiteURL": "https://marketplace.blazesportsintel.com",
+    "privacyPolicyURL": "https://blazesportsintel.com/privacy",
+    "termsOfServiceURL": "https://blazesportsintel.com/terms",
+    "defaultPrompt": [
+      "Use $universal-skills to find a skill for {task}",
+      "Use $universal-skills to install a skill that {does X}",
+      "Use $universal-skills to browse skills in the {Claude|Codex} ecosystem"
+    ],
+    "brandColor": "#BF5700",
+    "composerIcon": "./assets/icon-composer.svg",
+    "logo": "./assets/icon-logo.svg",
+    "screenshots": []
+  }
+}

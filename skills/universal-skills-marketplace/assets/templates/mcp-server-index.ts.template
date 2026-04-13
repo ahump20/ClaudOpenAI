@@ -1,0 +1,79 @@
+#!/usr/bin/env node
+/**
+ * {{package_name}} — MCP server entry point.
+ * Template generated from ClaudOpenAI skill assets/templates/mcp-server-index.ts.template.
+ */
+import { Server } from "@modelcontextprotocol/sdk/server/index.js";
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { z } from "zod";
+import { zodToJsonSchema } from "zod-to-json-schema";
+
+// ---------- Tool schemas ----------
+const ExampleToolInput = z.object({
+  param: z.string().describe("Describe what this param does"),
+});
+
+// ---------- Server factory ----------
+export function createServerInstance() {
+  const server = new Server(
+    {
+      name: "{{server_name}}",
+      version: "{{version}}",
+    },
+    {
+      capabilities: { tools: {} },
+    }
+  );
+
+  server.setRequestHandler(
+    { method: "tools/list" },
+    async () => ({
+      tools: [
+        {
+          name: "example-tool",
+          description: "Describe what this tool does. Claude reads this to decide when to invoke it.",
+          inputSchema: zodToJsonSchema(ExampleToolInput),
+        },
+      ],
+    })
+  );
+
+  server.setRequestHandler(
+    { method: "tools/call" },
+    async (request) => {
+      const { name, arguments: args } = request.params;
+      switch (name) {
+        case "example-tool": {
+          const validated = ExampleToolInput.parse(args);
+          return {
+            content: [
+              {
+                type: "text",
+                text: JSON.stringify({
+                  result: `You passed: ${validated.param}`,
+                  meta: {
+                    source: "{{server_name}}",
+                    fetched_at: new Date().toISOString(),
+                    timezone: "America/Chicago",
+                  },
+                }),
+              },
+            ],
+          };
+        }
+        default:
+          throw new Error(`Unknown tool: ${name}`);
+      }
+    }
+  );
+
+  return server;
+}
+
+// ---------- CLI ----------
+if (import.meta.url === `file://${process.argv[1]}`) {
+  const server = createServerInstance();
+  const transport = new StdioServerTransport();
+  await server.connect(transport);
+  console.error("Server running on stdio");
+}

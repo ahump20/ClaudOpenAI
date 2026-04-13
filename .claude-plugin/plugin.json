@@ -1,0 +1,9 @@
+{
+  "name": "universal-skills-marketplace",
+  "description": "Unofficial cross-ecosystem skills marketplace. Context7-pattern MCP server that resolves, fetches, and installs skills from both Claude Code (anthropics/claude-plugins-official, anthropics/skills) and OpenAI Codex (openai/plugins, openai/skills, openai/codex-plugin-cc) — one registry, two clients. Not affiliated with Anthropic or OpenAI.",
+  "author": {
+    "name": "Austin Humphrey / Blaze Sports Intel",
+    "email": "ahump20@outlook.com",
+    "url": "https://blazesportsintel.com"
+  }
+}

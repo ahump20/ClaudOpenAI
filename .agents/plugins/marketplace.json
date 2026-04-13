@@ -1,0 +1,11 @@
+{
+  "$schema": "https://marketplace.blazesportsintel.com/schemas/marketplace-codex.schema.json",
+  "name": "ClaudOpenAI Universal Skills",
+  "description": "Static snapshot of the ClaudOpenAI universal skills marketplace. The live, dynamically-generated catalog is served by the bridge Worker at https://registry.marketplace.blazesportsintel.com/.agents/plugins/marketplace.json (sourced from the same D1 backend as the Claude-format catalog at /.claude-plugin/marketplace.json).",
+  "homepage": "https://marketplace.blazesportsintel.com",
+  "repository": "https://github.com/ahump20/ClaudOpenAI",
+  "live_catalog_url": "https://registry.marketplace.blazesportsintel.com/.agents/plugins/marketplace.json",
+  "fetched_at": "2026-04-12T00:00:00Z",
+  "plugins": [],
+  "note": "This file is a placeholder until the bridge Worker (Phase 3) is deployed. Consumers should fetch live_catalog_url for the current catalog. The `plugins` array is intentionally empty here."
+}

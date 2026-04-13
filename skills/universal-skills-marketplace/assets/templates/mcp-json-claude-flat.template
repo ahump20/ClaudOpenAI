@@ -1,0 +1,6 @@
+{
+  "{{server_name}}": {
+    "command": "npx",
+    "args": ["-y", "{{npm_package_name}}"]
+  }
+}

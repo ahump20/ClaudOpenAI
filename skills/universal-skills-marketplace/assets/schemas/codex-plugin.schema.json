@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marketplace.blazesportsintel.com/schemas/codex-plugin.schema.json",
+  "title": "CodexPlugin",
+  "description": "Schema for .codex-plugin/plugin.json. Derived from 16 installed openai-curated plugins at ~/.codex/plugins/cache/openai-curated/ (Spike S2, 2026-04-12). Field frequencies reflect observed presence.",
+  "type": "object",
+  "required": [
+    "name",
+    "version",
+    "description",
+    "author",
+    "homepage",
+    "repository",
+    "license",
+    "keywords",
+    "skills",
+    "interface"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "kebab-case plugin slug",
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "version": {
+      "type": "string",
+      "description": "semver (e.g. 0.1.0, 1.0.0, 2.0.7)",
+      "pattern": "^\\d+\\.\\d+\\.\\d+"
+    },
+    "description": {
+      "type": "string",
+      "description": "one-sentence summary"
+    },
+    "author": {
+      "type": "object",
+      "properties": {
+        "name": {"type": "string"},
+        "email": {"type": "string"},
+        "url": {"type": "string", "format": "uri"}
+      },
+      "additionalProperties": false
+    },
+    "homepage": {"type": "string", "format": "uri"},
+    "repository": {"type": "string"},
+    "license": {
+      "type": "string",
+      "description": "SPDX identifier, 'Proprietary', or 'LicenseRef-*' custom reference"
+    },
+    "keywords": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "skills": {
+      "type": "string",
+      "description": "path to skills directory (always observed as './skills/')",
+      "pattern": "^\\./"
+    },
+    "apps": {
+      "type": "string",
+      "description": "path to .app.json connector registry (56% of plugins)",
+      "pattern": "^\\./"
+    },
+    "mcpServers": {
+      "type": "string",
+      "description": "path to .mcp.json (31% of plugins). Codex .mcp.json is wrapped: {\"mcpServers\": {...}}",
+      "pattern": "^\\./"
+    },
+    "hooks": {
+      "type": "string",
+      "description": "path to hooks.json (6% of plugins, observed only in figma)",
+      "pattern": "^\\./"
+    },
+    "interface": {
+      "type": "object",
+      "description": "Codex-only catalog metadata (no Claude equivalent)",
+      "required": [
+        "displayName",
+        "shortDescription",
+        "longDescription",
+        "category",
+        "capabilities",
+        "websiteURL",
+        "privacyPolicyURL",
+        "termsOfServiceURL",
+        "defaultPrompt",
+        "composerIcon",
+        "logo",
+        "screenshots"
+      ],
+      "properties": {
+        "displayName": {"type": "string"},
+        "shortDescription": {"type": "string"},
+        "longDescription": {"type": "string"},
+        "developerName": {
+          "type": "string",
+          "description": "optional (88% of plugins); absent in canva, stripe"
+        },
+        "category": {
+          "type": "string",
+          "description": "observed values: Coding, Productivity, Communication, Research, Design",
+          "examples": ["Coding", "Productivity", "Communication", "Research", "Design"]
+        },
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "examples": ["Interactive", "Write", "Read"]
+          }
+        },
+        "websiteURL": {"type": "string"},
+        "privacyPolicyURL": {"type": "string"},
+        "termsOfServiceURL": {"type": "string"},
+        "defaultPrompt": {
+          "oneOf": [
+            {"type": "string"},
+            {"type": "array", "items": {"type": "string"}}
+          ],
+          "description": "string in most plugins; array of strings in canva. Canonical form normalizes to array."
+        },
+        "composerIcon": {"type": "string"},
+        "logo": {"type": "string"},
+        "screenshots": {
+          "type": "array",
+          "description": "observed empty in most installed plugins; entries shape unverified"
+        },
+        "brandColor": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$",
+          "description": "optional (88% of plugins); absent in canva, stripe"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

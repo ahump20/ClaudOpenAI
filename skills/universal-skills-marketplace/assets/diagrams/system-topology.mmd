@@ -1,0 +1,53 @@
+%% ClaudOpenAI — system topology (Mermaid source)
+%% Render: https://mermaid.live OR `npx -y @mermaid-js/mermaid-cli -i system-topology.mmd -o system-topology.png`
+
+flowchart TB
+    subgraph Upstreams["🔷 Upstream Repos (9 verified — Spike S1)"]
+        R1[anthropics/claude-plugins-official<br/>16.8K⭐]
+        R2[anthropics/skills<br/>115.9K⭐]
+        R3[anthropics/knowledge-work-plugins<br/>11.1K⭐ Apache-2.0]
+        R4[openai/codex<br/>74.8K⭐ Apache-2.0]
+        R5[openai/codex-plugin-cc<br/>13.8K⭐ bridge prior art]
+        R6[openai/skills<br/>16.7K⭐]
+        R7[openai/swarm<br/>21.3K⭐ dormant]
+        R8[openai/openai-agents-python<br/>20.7K⭐ MIT]
+        R9[openai/plugins<br/>778⭐]
+    end
+
+    subgraph CFWorkers["🟠 Cloudflare Workers"]
+        Indexer[universal-skills-indexer<br/>cron 0 */6 * * *<br/>GITHUB_TOKEN]
+        API[universal-skills-api<br/>api.marketplace.blazesportsintel.com]
+        Bridge[universal-skills-bridge<br/>marketplace + registry<br/>.blazesportsintel.com]
+    end
+
+    subgraph Storage["💾 Storage"]
+        D1[(D1: universal-skills<br/>skills, versions, refs, sources, fts5)]
+        R2B[R2: universal-skills-content<br/>skills/id/version/*]
+        KV1[KV: CACHE]
+        KV2[KV: RATE_LIMIT]
+        KV3[KV: INDEXER_STATE]
+    end
+
+    subgraph Clients["👥 Clients"]
+        CC[Claude Code<br/>~/.claude/mcp.json]
+        CX[OpenAI Codex<br/>~/.codex/config.toml]
+        NPM[Clean-install npx<br/>@blazesportsintel/universal-skills-mcp]
+    end
+
+    Upstreams -- "git ls-remote + sparse-clone" --> Indexer
+    Indexer -- "UPSERT / write" --> D1
+    Indexer -- "content.tgz" --> R2B
+    Indexer -- "cursor/etag" --> KV3
+
+    D1 -- "SELECT" --> API
+    D1 -- "SELECT" --> Bridge
+    R2B -- "presigned URLs" --> API
+    KV1 -- "cache hit/miss" --> API
+    KV2 -- "rate limit" --> API
+
+    CC -- "POST /mcp (JSON-RPC 2.0)" --> API
+    CX -- "POST /mcp" --> API
+    NPM -- "stdio" --> API
+
+    CC -- "/plugin marketplace add" --> Bridge
+    CX -- "catalog sync" --> Bridge

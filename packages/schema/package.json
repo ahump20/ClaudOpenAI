@@ -1,0 +1,47 @@
+{
+  "name": "@blazesportsintel/universal-skills-schema",
+  "version": "0.1.0-alpha.0",
+  "description": "Zod + JSON Schema source-of-truth for the ClaudOpenAI universal skills marketplace canonical format, Claude plugin, Codex plugin, and both marketplace.json shapes.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./canonical": {
+      "types": "./dist/canonical.d.ts",
+      "import": "./dist/canonical.js"
+    },
+    "./claude": {
+      "types": "./dist/claude.d.ts",
+      "import": "./dist/claude.js"
+    },
+    "./codex": {
+      "types": "./dist/codex.d.ts",
+      "import": "./dist/codex.js"
+    }
+  },
+  "files": ["dist", "README.md"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test:unit": "vitest run"
+  },
+  "dependencies": {
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "vitest": "^1.4.0"
+  },
+  "keywords": ["mcp", "skills", "marketplace", "claude", "codex", "schema", "zod"],
+  "license": "Apache-2.0",
+  "author": "Austin Humphrey / Blaze Sports Intel",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ahump20/ClaudOpenAI.git",
+    "directory": "packages/schema"
+  }
+}

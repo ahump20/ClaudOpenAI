@@ -1,0 +1,9 @@
+{
+  "name": "{{plugin_name_kebab}}",
+  "description": "{{one_sentence_description}}",
+  "author": {
+    "name": "{{author_name}}",
+    "email": "{{author_email}}",
+    "url": "{{author_url}}"
+  }
+}

@@ -1,0 +1,28 @@
+%% Manifest translator — bidirectional flow via canonical middle (Mermaid source)
+
+flowchart LR
+    subgraph Inputs
+        CP[.claude-plugin/<br/>plugin.json +<br/>convention dirs]
+        CXP[.codex-plugin/<br/>plugin.json +<br/>interface{} + apps]
+        SSM[Standalone<br/>SKILL.md +<br/>refs/scripts/assets]
+    end
+
+    subgraph Canonical["🔷 CanonicalSkill (zod)"]
+        C[id, origin, type, name, description<br/>skills[], mcpServers, commands<br/>hooks, agents, apps, interface<br/>ecosystem_extensions, translation_log]
+    end
+
+    subgraph Outputs
+        CPO[Claude plugin dir<br/>+ codex_ecosystem.json<br/>+ HTML-comment shims]
+        CXPO[Codex plugin dir<br/>+ claude_ecosystem.json<br/>+ .app.json + interface{}]
+        SSMO[Standalone SKILL.md<br/>(only if single-skill plugin)]
+    end
+
+    CP -- "toCanonical('claude')" --> C
+    CXP -- "toCanonical('codex')" --> C
+    SSM -- "toCanonical('standalone')" --> C
+
+    C -- "fromCanonical('claude')" --> CPO
+    C -- "fromCanonical('codex')" --> CXPO
+    C -- "fromCanonical('standalone')" --> SSMO
+
+    C -- "translation_log<br/>[{level, field, shim_generated}]" --> Log[Log entries:<br/>info / warning / lossy]

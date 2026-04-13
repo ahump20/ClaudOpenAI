@@ -1,0 +1,29 @@
+{
+  "$comment": "Claude plugin with SKILL.md using allowed-tools frontmatter key. Round-trip Claude->Codex->Claude should preserve allowed-tools via .claude-plugin/codex_ecosystem.json sidecar. Translator writes log entry { level: 'lossy', field: 'allowed-tools', shim_generated: 'html-comment' } on Codex leg.",
+  "plugin_json": {
+    "name": "imessage",
+    "description": "Access iMessage conversations and send messages",
+    "author": { "name": "Austin Humphrey" }
+  },
+  "skill_md_frontmatter": {
+    "name": "access",
+    "description": "Use when accessing iMessage DB.",
+    "allowed-tools": ["Read"],
+    "user-invocable": true,
+    "disable-model-invocation": false
+  },
+  "skill_md_body": "# iMessage Access\n\nInstructions for reading iMessage DB.",
+  "expected_translation_log_after_roundtrip": [
+    {
+      "level": "lossy",
+      "field": "skills.access.frontmatter.allowed-tools",
+      "message": "Claude-only frontmatter key preserved as HTML comment",
+      "shim_generated": "<!-- translator-shim: field=allowed-tools value=[Read]; restored from codex_ecosystem.json on round-trip -->"
+    },
+    {
+      "level": "info",
+      "field": "skills.access.frontmatter.user-invocable",
+      "message": "Claude-only frontmatter key stashed in sidecar"
+    }
+  ]
+}
