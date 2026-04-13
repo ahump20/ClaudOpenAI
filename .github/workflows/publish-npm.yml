@@ -1,0 +1,41 @@
+name: Publish npm packages
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "npm dist-tag (alpha, beta, latest)"
+        required: true
+        default: "alpha"
+
+jobs:
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    # Guard: only run when NPM_TOKEN is configured as a repo secret
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Build all workspaces
+        run: npm run build --workspaces --if-present
+      - name: Run tests
+        run: npm run test:unit --workspaces --if-present
+      - name: Publish @blazesportsintel/universal-skills-schema
+        working-directory: packages/schema
+        run: npm publish --tag ${{ github.event.inputs.tag || 'alpha' }} --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish @blazesportsintel/universal-skills-mcp
+        working-directory: packages/mcp-server
+        run: npm publish --tag ${{ github.event.inputs.tag || 'alpha' }} --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

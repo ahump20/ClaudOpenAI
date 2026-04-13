@@ -1,0 +1,54 @@
+{
+  "name": "@blazesportsintel/universal-skills-mcp",
+  "version": "0.1.0-alpha.0",
+  "description": "ClaudOpenAI MCP server — Context7-pattern skills marketplace bridging Claude Code and OpenAI Codex. Unofficial.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "bin": {
+    "universal-skills-mcp": "./dist/index.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./server": {
+      "types": "./dist/server.d.ts",
+      "import": "./dist/server.js"
+    }
+  },
+  "files": ["dist", "README.md"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepublishOnly": "npm run build",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:unit": "vitest run tests/unit",
+    "test:integration": "vitest run tests/integration",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@blazesportsintel/universal-skills-schema": "workspace:*",
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "gray-matter": "^4.0.3",
+    "lru-cache": "^10.2.0",
+    "zod": "^3.23.0",
+    "zod-to-json-schema": "^3.22.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.4.0"
+  },
+  "keywords": ["mcp", "claude-code", "codex", "skills", "marketplace", "agentskills", "context7-pattern"],
+  "license": "Apache-2.0",
+  "author": "Austin Humphrey / Blaze Sports Intel",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ahump20/ClaudOpenAI.git",
+    "directory": "packages/mcp-server"
+  },
+  "engines": {
+    "node": ">=18.19.0"
+  }
+}

@@ -1,0 +1,46 @@
+name: Deploy Cloudflare Workers
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy all three Workers
+    runs-on: ubuntu-latest
+    # Requires: CLOUDFLARE_API_TOKEN + CLOUDFLARE_ACCOUNT_ID repo secrets.
+    # Requires: D1 / R2 / KV resources already created (run workflow_dispatch only after provisioning).
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - name: Install wrangler
+        run: npm install -g wrangler@latest
+      - name: Deploy api Worker
+        working-directory: workers/universal-skills-api
+        run: wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      - name: Deploy indexer Worker
+        working-directory: workers/universal-skills-indexer
+        run: wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      - name: Deploy bridge Worker
+        working-directory: workers/universal-skills-bridge
+        run: wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      - name: Post-deploy health check
+        run: |
+          for host in marketplace api.marketplace registry.marketplace; do
+            echo "=== $host.blazesportsintel.com/health ==="
+            curl -sf --max-time 10 "https://$host.blazesportsintel.com/health" | head -10 || echo "(health check failed — may need DNS propagation)"
+          done

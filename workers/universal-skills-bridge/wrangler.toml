@@ -1,0 +1,24 @@
+name = "universal-skills-bridge"
+main = "src/index.ts"
+compatibility_date = "2026-04-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "universal-skills"
+database_id = "REPLACE_WITH_wrangler_d1_create_OUTPUT"
+
+[observability]
+enabled = true
+
+[[routes]]
+pattern = "marketplace.blazesportsintel.com/*"
+zone_name = "blazesportsintel.com"
+custom_domain = true
+
+[[routes]]
+pattern = "registry.marketplace.blazesportsintel.com/*"
+zone_name = "blazesportsintel.com"
+custom_domain = true
+
+[vars]
+REGISTRY_VERSION = "0.1.0-alpha.0"

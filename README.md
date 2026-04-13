@@ -122,17 +122,57 @@ docs/                              # quickstart, authors-guide, spike outputs
 
 ## Status
 
-**v0.1.0 (in development).** Phased build per
-[`~/.claude/plans/zesty-growing-flurry.md`](../../../../.claude/plans/zesty-growing-flurry.md):
+**v0.1.0-alpha.0 — all code phases complete, awaiting first deploy.**
 
-- [ ] Phase 0: Spikes (upstream URL validation, Codex schema diff, rate limits, MCP parity)
-- [ ] Phase 1: Schemas + guidance skill package
-- [ ] Phase 2: npm MCP server (local demo in Claude Code + Codex)
-- [ ] Phase 3: Cloudflare Workers backend (D1 + R2 + indexer + bridge)
-- [ ] Phase 4: Release (npm publish + marketplace submission)
+- [x] **Phase 0: Spikes** — 7 spike docs in [`docs/spikes/`](./docs/spikes/); all 9 upstream URLs verified
+- [x] **Phase 1: Schemas + guidance skill** — [skill package](./skills/universal-skills-marketplace/) (SKILL.md router + 13 deep references + 10 templates + real examples + 7 scripts); zod + JSON Schemas in [`packages/schema/`](./packages/schema/) and [`schema/`](./schema/); D1 DDL with FTS5; `validate.sh` passes 9/9
+- [x] **Phase 2: npm MCP server** — [`packages/mcp-server/`](./packages/mcp-server/) with translator, scorer, registry, 3 tools, stdio + http transports, unit tests (scorer/frontmatter/translator round-trip)
+- [x] **Phase 3: Cloudflare Workers** — [`workers/universal-skills-api/`](./workers/universal-skills-api/), [`workers/universal-skills-indexer/`](./workers/universal-skills-indexer/), [`workers/universal-skills-bridge/`](./workers/universal-skills-bridge/) with wrangler.toml configs, D1/R2/KV bindings, cron indexer
+- [x] **Phase 4: CI** — [`.github/workflows/ci.yml`](./.github/workflows/ci.yml) runs on every PR; `publish-npm.yml` and `deploy-workers.yml` fire on version tags
+- [ ] **First deploy** — awaiting `wrangler d1 create universal-skills`, `wrangler r2 bucket create universal-skills-content`, KV namespace creation, DNS setup per [`docs/spikes/dns-setup.md`](./docs/spikes/dns-setup.md)
+- [ ] **First npm publish** — awaiting `npm ci && npm run build && npm publish --tag alpha` (requires `NPM_TOKEN` repo secret)
 
-Not ready for production. Not claiming official endorsement from either
-Anthropic or OpenAI. "Born to Blaze the Path Beaten Less."
+Not ready for production use until the first deploy lands. Not claiming official endorsement from either Anthropic or OpenAI. "Born to Blaze the Path Beaten Less."
+
+## Next steps for Austin
+
+```bash
+# 1. Install workspace dependencies
+cd external/ClaudOpenAI
+npm install
+
+# 2. Verify everything builds and tests pass locally
+npm run typecheck --workspaces --if-present
+npm test --workspaces --if-present
+bash skills/universal-skills-marketplace/scripts/validate.sh
+
+# 3. Provision Cloudflare resources (one-time)
+wrangler d1 create universal-skills
+wrangler d1 execute universal-skills --file=schema/d1-schema.sql --remote
+wrangler r2 bucket create universal-skills-content
+wrangler kv:namespace create CACHE
+wrangler kv:namespace create RATE_LIMIT
+wrangler kv:namespace create INDEXER_STATE
+# → paste the returned IDs into each workers/*/wrangler.toml
+
+# 4. Set indexer secret
+wrangler secret put GITHUB_TOKEN --config workers/universal-skills-indexer/wrangler.toml
+
+# 5. Deploy all three Workers
+cd workers/universal-skills-api && wrangler deploy && cd ../..
+cd workers/universal-skills-indexer && wrangler deploy && cd ../..
+cd workers/universal-skills-bridge && wrangler deploy && cd ../..
+
+# 6. Trigger initial indexer run (populates D1 from the 9 upstream repos)
+curl -X POST https://indexer.marketplace.blazesportsintel.com/run
+
+# 7. Verify the live marketplace
+curl https://marketplace.blazesportsintel.com/.claude-plugin/marketplace.json | jq '.plugins | length'
+curl https://api.marketplace.blazesportsintel.com/health
+
+# 8. Publish the npm package (after adding NPM_TOKEN to GitHub secrets, then tag v0.1.0-alpha.1)
+git tag v0.1.0-alpha.1 && git push origin v0.1.0-alpha.1
+```
 
 ---
 

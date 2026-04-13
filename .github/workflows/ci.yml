@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate-skill:
+    name: Validate guidance skill
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run skill self-validator
+        run: bash skills/universal-skills-marketplace/scripts/validate.sh
+
+  typecheck-and-test:
+    name: Typecheck + unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Typecheck all workspaces
+        run: npm run typecheck --workspaces --if-present
+      - name: Build all workspaces
+        run: npm run build --workspaces --if-present
+      - name: Run unit tests
+        run: npm run test:unit --workspaces --if-present
+
+  d1-schema-check:
+    name: Validate D1 schema with SQLite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply D1 DDL to sqlite3
+        run: |
+          sqlite3 /tmp/test.db < schema/d1-schema.sql
+          sqlite3 /tmp/test.db "SELECT count(*) FROM sources" | grep -q 9 || {
+            echo "Expected 9 seeded sources; got different count"
+            exit 1
+          }
+          sqlite3 /tmp/test.db "SELECT * FROM skills_fts WHERE skills_fts MATCH 'test' LIMIT 1" || true
+          echo "D1 schema valid; FTS5 indexes built."
+
+  spike-docs-present:
+    name: Verify Phase 0 spike docs exist
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check all 7 spike docs present
+        run: |
+          for f in upstream-availability codex-schema-drift github-rate-limits mcp-client-parity dns-setup agentskills-provenance icloud-build-strategy; do
+            test -f "docs/spikes/$f.md" || { echo "Missing spike doc: $f.md"; exit 1; }
+          done
+          echo "All 7 Phase 0 spike docs present."

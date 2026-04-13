@@ -1,0 +1,32 @@
+name = "universal-skills-api"
+main = "src/index.ts"
+compatibility_date = "2026-04-01"
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "universal-skills"
+database_id = "REPLACE_WITH_wrangler_d1_create_OUTPUT"
+
+[[r2_buckets]]
+binding = "CONTENT"
+bucket_name = "universal-skills-content"
+
+[[kv_namespaces]]
+binding = "CACHE"
+id = "REPLACE_WITH_wrangler_kv_create_CACHE_ID"
+
+[[kv_namespaces]]
+binding = "RATE_LIMIT"
+id = "REPLACE_WITH_wrangler_kv_create_RATE_LIMIT_ID"
+
+[observability]
+enabled = true
+
+[[routes]]
+pattern = "api.marketplace.blazesportsintel.com/*"
+zone_name = "blazesportsintel.com"
+custom_domain = true
+
+[vars]
+REGISTRY_VERSION = "0.1.0-alpha.0"
